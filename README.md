@@ -1,4 +1,4 @@
-# spring-cloud-example
+# spring-cloud-example (Using Config Server)
 This example show how we can use Srping Config Server and use Spring Cloud Bus to update all connected clients whenever there is an update made in config.  This example used Spring Boot to create Config Client Services.
 
 #Quick Facts about Spring Cloud Bus
