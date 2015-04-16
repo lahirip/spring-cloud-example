@@ -4,12 +4,12 @@ This example show how we can use Srping Config Server and use Spring Cloud Bus t
 #Quick Facts about Spring Cloud Bus
 - The Spring Cloud Bus links all services through a RabbitMQ(AMQP) powered-bus
 - broadcast state changes (e.g. configuration changes)
-- By Default it uses exchange name = spring.cloud.bus
+- By Default it uses exchange name = `spring.cloud.bus`
 - Bus supports sending messages to all nodes/services or some specific service/node
 - http endpoints are under the /bus/* actuator namespace
-- "destination" parameter, e.g. "/bus/refresh?destination=customers:9000", where the destination is an `ApplicationContext` ID.
+- `destination` parameter, e.g. "/bus/refresh?destination=customers:9000", where the destination is an `ApplicationContext` ID.
 - For a Spring Boot application we can easily get the /bus/* endpoints active by adding dependency "spring-cloud-starter-bus-amqp"
-- At start up the Bus enabled application (client) will contact spring.rabbitmq.addresses=localhost:5672 create the exchange .
+- At start up the Bus enabled application (client) will contact `spring.rabbitmq.addresses`=localhost:5672 create the exchange .
 
 #Prerequisite
  - make sure you have rbbitmq install and running in your machine. by default it listen in 5672
@@ -21,12 +21,12 @@ This example show how we can use Srping Config Server and use Spring Cloud Bus t
  
 #Client Side 
 - For every client do this:
- - set "spring.cloud.config.uri"  set to connect to Spring Config Server.
+ - set `spring.cloud.config.uri`  set to connect to Spring Config Server.
  - Add Spring Bus Dependency to all Services (have to figure out how non Spring Boot App will work)
- - Each Application/services should have a name:  set it using "spring.application.name"    (Read this to understand how it will be used:  https://github.com/spring-cloud/spring-cloud-bus/commit/ca7aa9a49c4199c58b0bce990f8cb38febd1454a)
- - At this stage we should have the service/config-clients up and running will  /bus/refresh and /bus/env endpoints up and running.  
- - curl -X POST http://localhost:8080/bus/refresh
- - curl -X POST http://localhost:8080/bus/refresh?destination=configclient:**
+ - Each Application/services should have a name:  set it using `spring.application.name`    (Read this to understand how it will be used:  https://github.com/spring-cloud/spring-cloud-bus/commit/ca7aa9a49c4199c58b0bce990f8cb38febd1454a)
+ - At this stage we should have the service/config-clients up and running will  `/bus/refresh` and `/bus/env` endpoints up and running.  
+ - `curl -X POST http://localhost:8080/bus/refresh`
+ - `curl -X POST http://localhost:8080/bus/refresh?destination=configclient:**`
 
 - Run multiple such clients:   
  - Create one more client following step above. 
