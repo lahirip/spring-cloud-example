@@ -7,7 +7,7 @@ This example show how we can use Srping Config Server and use Spring Cloud Bus t
 - By Default it uses exchange name = `spring.cloud.bus`
 - Bus supports sending messages to all nodes/services or some specific service/node
 - http endpoints are under the /bus/* actuator namespace
-- `destination` parameter, e.g. "/bus/refresh?destination=customers:9000", where the destination is an `ApplicationContext` ID.
+- `destination` parameter, e.g. /bus/refresh?destination=`<servicename>`, `/bus/refresh?destination=configclient2:8085`where the destination is an `ApplicationContext` ID.  If the ID is owned by an instance on the Bus then it will process the message and all other instances will ignore it. Spring Boot sets the ID for you in the ContextIdApplicationContextInitializer to a combination of the spring.application.name, active profiles and server.port by default.
 - For a Spring Boot application we can easily get the /bus/* endpoints active by adding dependency "spring-cloud-starter-bus-amqp"
 - At start up the Bus enabled application (client) will contact `spring.rabbitmq.addresses`=localhost:5672 create the exchange .
 
