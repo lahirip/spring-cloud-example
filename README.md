@@ -1,6 +1,28 @@
 # spring-cloud-example (Using Config Server)
 This example show how we can use Srping Config Server and use Spring Cloud Bus to update all connected clients whenever there is an update made in config.  This example used Spring Boot to create Config Client Services.
 
+#Quick Facts about Config Server
+ - Default Storage is GIT. 
+  -  Default strategy for locating a source is to clone a git repository reads the `spring.cloud.config.server.git.uri` at start up
+ -  Environment is used to enumerate property sources
+ -  Rest endpoints looks like:  
+ -  The HTTP service has resources in the form:
+    /{application}/{profile}[/{label}]
+    /{application}-{profile}.yml
+    /{label}/{application}-{profile}.yml
+    /{application}-{profile}.properties
+    /{label}/{application}-{profile}.properties
+    where the "application" is injected as the "spring.config.name" in the SpringApplication (i.e. what is normally "application" in a regular Spring Boot app), "profile" is an active profile (or comma-separated
+list of properties), and "label" is an optional git label (defaults to "master".)
+
+- The Config Server itself is stateless, so you can spin up as many as these as you need and find them via eureka (this is what we should do when using other clients)
+- If the config server can't reach git it will continue to serve what it has checked out even if it is stale.
+broadcast the EnvironmentChangedEvent to all the instances instead of having them polling for changes (e.g. using the Spring Cloud Bus).
+try 
+ `http://localhost:8888/foo-development.properties` 
+ `http://localhost:8888/foo/bar`
+{"name":"foo","profiles":["bar"],"label":"master","propertySources":[{"name":"https://github.com/lahirip/config-repo/foo.properties","source":{"bar":"foo-default"}}]}
+
 #Quick Facts about Spring Cloud Bus
 - The Spring Cloud Bus links all services through a RabbitMQ(AMQP) powered-bus
 - broadcast state changes (e.g. configuration changes)
