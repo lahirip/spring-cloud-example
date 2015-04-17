@@ -9,11 +9,11 @@ This example show how we can use Srping Config Server and use Spring Cloud Bus t
  -  Environment is used to enumerate property sources
  -  Rest endpoints looks like:  
  -  The HTTP service has resources in the form:
-    /{application}/{profile}[/{label}]
-    /{application}-{profile}.yml
-    /{label}/{application}-{profile}.yml
-    /{application}-{profile}.properties
-    /{label}/{application}-{profile}.properties
+    - `/{application}/{profile}[/{label}]`  http://localhost:8888/foo/development, http://localhost:8888/foo/development,staging
+    - `/{application}-{profile}.yml`
+    - `/{label}/{application}-{profile}.yml`
+    - `/{application}-{profile}.properties`
+    - `/{label}/{application}-{profile}.properties`
     where the "application" is injected as the "spring.config.name" in the SpringApplication (i.e. what is normally "application" in a regular Spring Boot app), "profile" is an active profile (or comma-separated
 list of properties), and "label" is an optional git label (defaults to "master".)
 
@@ -25,7 +25,35 @@ try
  `http://localhost:8888/foo/bar`
 {"name":"foo","profiles":["bar"],"label":"master","propertySources":[{"name":"https://github.com/lahirip/config-repo/foo.properties","source":{"bar":"foo-default"}}]}
 
-
+# Understanding how the property source precedence works
+{  
+   "name":"foo",
+   "profiles":[  
+      "development",
+      "staging"
+   ],
+   "label":"master",
+   "propertySources":[  
+      {  
+         "name":"https://github.com/lahirip/config-repo/foo-staging.properties",
+         "source":{  
+            "bar":"foo-statging"
+         }
+      },
+      {  
+         "name":"https://github.com/lahirip/config-repo/foo-development.properties",
+         "source":{  
+            "bar":"foo-development"
+         }
+      },
+      {  
+         "name":"https://github.com/lahirip/config-repo/foo.properties",
+         "source":{  
+            "bar":"foo-default"
+         }
+      }
+   ]
+}
 
 # Quick Facts about Spring Cloud Bus
 - The Spring Cloud Bus links all services through a RabbitMQ(AMQP) powered-bus
