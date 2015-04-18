@@ -9,13 +9,18 @@ This example show how we can use Srping Config Server and use Spring Cloud Bus t
  -  Environment is used to enumerate property sources
  -  Rest endpoints looks like:  
  -  The HTTP service has resources in the form:
-    - `/{application}/{profile}[/{label}]`  http://localhost:8888/foo/development, http://localhost:8888/foo/development,staging
+    - `/{application}/{profile}[/{label}]`  
     - `/{application}-{profile}.yml`
     - `/{label}/{application}-{profile}.yml`
     - `/{application}-{profile}.properties`
     - `/{label}/{application}-{profile}.properties`
-    where the "application" is injected as the "spring.config.name" in the SpringApplication (i.e. what is normally "application" in a regular Spring Boot app), "profile" is an active profile (or comma-separated
+    - where the "application" is injected as the "spring.config.name" in the SpringApplication (i.e. what is normally "application" in a regular Spring Boot app), "profile" is an active profile (or comma-separated
 list of properties), and "label" is an optional git label (defaults to "master".)
+    - examples:
+    - [http://localhost:8888/configclient/default](http://localhost:8888/configclient/default link)
+    - [http://localhost:8888/foo/development](http://localhost:8888/foo/development)
+    - [http://localhost:8888/foo/development,staging](http://localhost:8888/foo/development,staging)
+    - [http://localhost:8888/domain1global,configclient/development](http://localhost:8888/domain1global,configclient/development)
 
 - The Config Server itself is stateless, so you can spin up as many as these as you need and find them via eureka (this is what we should do when using other clients)
 - If the config server can't reach git it will continue to serve what it has checked out even if it is stale.
