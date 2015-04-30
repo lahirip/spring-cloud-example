@@ -110,3 +110,35 @@ try
    -  call its own /bus/refresh?....  endpoint   
 
 
+# How client specific properties are fetched:
+
+-We already know
+
+  - A Spring Config Client created with Spring Boot application with the dependency on spring-cloud-config-client,  connects to Config Server automatically and use properties via Config Server.
+  - The client application name defined using "spring.application.name"  is used to fetch the properties 
+  - The chosen profile gets precedence "spring.cloud.config.profile=production"
+
+for example if the GIT Repository looks something like this:
+
+    configclient.properties
+
+    configclient-production.properties
+
+    configclient-development.properties
+
+    application.properties (this is which application's properties  - config server's? which is located in GIT repo.  May be we don;t care about this.)
+
+Inspect configclient's env by hitting    `http://localhost:8080/env/` you will notice the production profile gets the precedence.
+
+http://localhost:8080/env/C1.X   returns "Y-production"
+
+- A Special Note about:  application.properties
+  - its precedence is lower than the config client's properties
+  - We can override a property of application.properties in config client properties. 
+  - For example  http://localhost:8080/env/COMMON  will return "XYZ"  not "123-application-properties". Which is what we expect.
+  - But, with application.properties we can not replicate the Global properties behavior, and the domain specific properties concept.
+    - you can not change the name of it,
+    - you can have only one application.properties in your repository (of course you can have different profile application-development etc). 
+    - on top of this, if you think of a situation where you provisioned config server for each domain (say inventory services) then all common properties for that domain can be hosted in application.properties (in the central repo for that config server).  But you can not change the name and you can not host configs for another domain (say BI services) where set of services under D2 have different set of common properties. So application.properties are not super suitable for Global properties.
+
+
