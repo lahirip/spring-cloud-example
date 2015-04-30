@@ -1,5 +1,10 @@
 # spring-cloud-example (Using Config Server)
-This example show how we can use Srping Config Server and use Spring Cloud Bus to update all connected clients whenever there is an update made in config.  This example used Spring Boot to create Config Client Services.
+~This Sample Project Covers following aspects of Spring Config Server:
+  - Set up a Spring config Server ( Security is skipped, we can easily add that)
+  - Showed how Spring Cloud Bus can be used to publish config change events.
+  - Showed how a client will get notified for cofigs that it is interested in
+  - Showed how cofig server can provide properties from both client as well as domain specific global properties. 
+  - This example used Spring Boot to create Config Client Services.
 
 # Quick Facts about Config Server
  - It is Spring Boot Application created with `spring.config.name=configserver`
@@ -128,14 +133,14 @@ for example if the GIT Repository looks something like this:
 
     application.properties (this is which application's properties  - config server's? which is located in GIT repo.  May be we don;t care about this.)
 
-Inspect configclient's env by hitting    `http://localhost:8080/env/` you will notice the production profile gets the precedence.
+Inspect configclient's env by hitting    [http://localhost:8080/env/](http://localhost:8080/env/) you will notice the production profile gets the precedence.
 
 http://localhost:8080/env/C1.X   returns "Y-production"
 
 - A Special Note about:  application.properties
   - its precedence is lower than the config client's properties
   - We can override a property of application.properties in config client properties. 
-  - For example  http://localhost:8080/env/COMMON  will return "XYZ"  not "123-application-properties". Which is what we expect.
+  - For example  [http://localhost:8080/env/COMMON](http://localhost:8080/env/COMMON)  will return "XYZ"  not "123-application-properties". Which is what we expect.
   - But, with application.properties we can not replicate the Global properties behavior, and the domain specific properties concept.
     - you can not change the name of it,
     - you can have only one application.properties in your repository (of course you can have different profile application-development etc). 
